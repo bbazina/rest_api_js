@@ -1,9 +1,9 @@
 module.exports = {
-  HOST: "localhost",
-  USER: "root",
-  PASSWORD: "legenda2010",
-  DB: "tennis",
-  dialect: "mysql",
+  HOST: 'localhost',
+  USER: 'jure',
+  PASSWORD: 'i',
+  DB: 'tennis',
+  dialect: 'mysql',
   pool: {
     max: 5,
     min: 0,

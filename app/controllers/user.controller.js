@@ -1,15 +1,17 @@
-exports.allAccess = (req, res) => {
-  res.status(200).send("Pulic Content.");
+const allAccess = (req, res) => {
+  res.status(200).send('Pulic Content.');
 };
 
-exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
+const userBoard = (req, res) => {
+  res.status(200).send('User Content.');
 };
 
-exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
+const adminBoard = (req, res) => {
+  res.status(200).send('Admin Content.');
 };
 
-exports.moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator Content.");
+const moderatorBoard = (req, res) => {
+  res.status(200).send('Moderator Content.');
 };
+
+module.exports = { allAccess, userBoard, adminBoard, moderatorBoard };
