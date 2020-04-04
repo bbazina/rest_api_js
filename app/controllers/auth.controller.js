@@ -1,14 +1,14 @@
-const db = require("../models");
-const config = require("../config/auth.config");
+const db = require('../models');
+const config = require('../config/auth.config');
 const User = db.user;
 const Role = db.role;
 
 const Op = db.Sequelize.Op;
 
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
 
-exports.signup = (req, res) => {
+const signup = (req, res) => {
   // Save User to Database
   User.create({
     username: req.body.username,
@@ -25,13 +25,13 @@ exports.signup = (req, res) => {
           },
         }).then((roles) => {
           user.setRoles(roles).then(() => {
-            res.send({ message: "User was registered successfully!" });
+            res.send({ message: 'User was registered successfully!' });
           });
         });
       } else {
         // user role = 1
         user.setRoles([1]).then(() => {
-          res.send({ message: "User was registered successfully!" });
+          res.send({ message: 'User was registered successfully!' });
         });
       }
     })
@@ -40,7 +40,7 @@ exports.signup = (req, res) => {
     });
 };
 
-exports.signin = (req, res) => {
+const signin = (req, res) => {
   User.findOne({
     where: {
       username: req.body.username,
@@ -48,18 +48,15 @@ exports.signin = (req, res) => {
   })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: "User not found" });
+        return res.status(404).send({ message: 'User not found' });
       }
 
-      var passwordIsVaild = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
+      var passwordIsVaild = bcrypt.compareSync(req.body.password, user.password);
 
       if (!passwordIsVaild) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!",
+          message: 'Invalid Password!',
         });
       }
 
@@ -70,7 +67,7 @@ exports.signin = (req, res) => {
       var authorities = [];
       user.getRoles().then((roles) => {
         for (let i = 0; i < roles.lenght; i++) {
-          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+          authorities.push('ROLE_' + roles[i].name.toUpperCase());
         }
         res.status(200).send({
           id: user.id,
@@ -85,3 +82,5 @@ exports.signin = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+module.exports = { signup, signin };
